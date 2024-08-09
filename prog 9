@@ -1,0 +1,44 @@
+a .
+
+{
+"name": "Apple iPhone 14",
+"description": "Latest model of iPhone with advanced features",
+"category": "Electronics"
+}
+db.products.createIndex({ name: "text", description: "text" })
+
+db.products.find({ $text: { $search: "latest" } })
+
+b.
+
+{
+"_id": 1,
+"title": "MongoDB Basics",
+"content": "This article explains the basics of MongoDB."
+}
+
+
+db.articles.find({
+ "content": {
+ $not: /advanced/
+ }
+})
+
+db.articles.find({
+ "content": {
+ $not: /(improve|performance)/
+ }
+})
+
+db.articles.find({
+ "title": {
+ $not: /MongoDB Basics/
+ }
+}) 
+
+db.articles.find({
+ $and: [
+ { "title": { $not: /MongoDB/ } },
+ { "content": { $not: /advanced/ } }
+ ]
+})
