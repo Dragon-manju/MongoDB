@@ -1,0 +1,73 @@
+pro 03
+
+a.
+
+>use Store
+> db.customers.insertMany([ { _id: 1, name: "Alice", age: 30, city: "New York" },
+{ _id: 2, name: "Bob", age: 25, city: "San Francisco" },
+{ _id: 3, name: "Charlie", age: 35, city: "Los Angeles" },
+{ _id: 4, name: "David", age: 28, city: "Chicago" },
+{_id: 5, name: "Eve", age: 32, city: "Miami" } ])
+
+>db.customers.find({ "age": { "$eq": 28 } })
+>db.customers.find({ "age": { "$gt": 30 } })
+
+>db.customers.find({
+$or: [
+{ city: "New York" },
+{ city: " Los Angeles" }
+] })
+
+>db.customers.find({
+$and: [
+{ age: 30 },
+{ city:"New York" }
+] })
+
+
+>db.customers.find({$and: [
+{ age: { $gte: 18 } }, // age greater than or equal to 18
+{ age: { $lt: 35 } }, // age less than 35
+{ city: { $in: ["New York", "Miami"] } } // city is either "New York" or "Miami"
+]})
+
+
+
+
+b.
+
+
+>db.places.insertMany([
+{ id: 1, name: "Place A", location: { type: "Point", coordinates: [ -73.97, 40.77 ] } }, // New York
+{ id: 2, name: "Place B", location: { type: "Point", coordinates: [ -122.43, 37.77 ] } }, // San Francisco
+{ id: 3, name: "Place C", location: { type: "Point", coordinates: [ -118.25, 34.05 ] } }, // Los Angeles
+{ id: 4, name: "Place D", location: { type: "Point", coordinates: [ -87.63, 41.88 ] } }, // Chicago
+{ id: 5, name: "Place E", location: { type: "Point", coordinates: [ -80.19, 25.77 ] } } // Miami
+])
+
+>db.places.createIndex({ location: "2dsphere" })
+
+>db.places.find({ location: {
+$near: {
+$geometry: {
+type: "Point",
+coordinates: [ -73.97, 40.77 ]
+}, $maxDistance: 10000 // 10km in meters
+}}})
+
+
+2. Bitwise Selectors
+
+
+>db.devices.insertMany([
+{ id: 1, name: "Device A", status: 5 }, // 0101 in binary
+{ id: 2, name: "Device B", status: 3 }, // 0011 in binary
+{ id: 3, name: "Device C", status: 6 }, // 0110 in binary
+{ id: 4, name: "Device D", status: 12 }, // 1100 in binary
+{ id: 5, name: "Device E", status: 7 } // 0111 in binary ])
+
+
+
+>db.devices.find({ status: { $bitsAllSet: 2 } })
+
+> db.devices.find({ "status": { "$bitsAnySet": [0, 3] } })
