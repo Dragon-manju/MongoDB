@@ -1,0 +1,27 @@
+{
+"name": "Apple iPhone 14",
+"description": "Latest model of iPhone with advanced features",
+"category": "Electronics"
+}
+
+
+db.catalog.createIndex({ name: "text", description: "text" });
+
+db.catalog.aggregate([
+ // Stage 1: Match documents containing the search term
+ {
+ $match: {
+ $text: { $search: " Apple iPhone 14" } 
+ }
+ },
+ // Stage 2: Project only required fields
+ {
+ $project: {
+ _id: 0,
+ name: 1,
+ description: 1,
+ category: 1
+ // Add more fields as needed
+ }
+ }
+])
