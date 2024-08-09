@@ -1,0 +1,31 @@
+{
+"name": "Jayanth ",
+"age": 20,
+"grade": "A",
+"scores": { "math": 85, "english": 92, "science": 88 }
+}
+
+
+db.students.aggregate([
+{
+$match: { age: { $gte: 21 } }
+},
+ {
+ $group: {
+ _id: "$grade",
+ averageAge: { $avg: "$age" }
+ }
+},
+{
+ $sort: { averageAge: -1 }
+},
+{
+ $project: {
+ _id: 0,
+ grade: "$_id",
+ averageAge: 1
+ }
+},
+{
+ $skip: 1
+}])
