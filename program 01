@@ -1,0 +1,37 @@
+program 01
+
+a.
+
+{
+"rno" : 1,
+"name" : "Bhavana",
+"location": "Chennai"
+}
+
+
+> use Students
+> db.details.find()
+> db. details.findOne()
+
+>db.details.find({$and: [{"location": "Chennai"},{rno:1}] })
+
+>db.details.find({$or: [{"location": "Chennai"}, {"location": "Delhi"}] })
+
+
+b.
+
+> db.details.insertOne({name:'Amar',rno:5},{name:’Ajay’,rno:10})
+>db.details.find({name:'Amar',rno:5})
+> db.details.insert({rno:15, name:'Ravina', dob: ISODate("2019-09-14")})
+> db.details.insert([{rno:7,name:'a'},{rno:8,name:'b'},{rno:8,name:'c'}])
+>db.details.insert({rno:10,name:'Ankit',hobbies:['singing','cricket','swimming', 'music'],age:21})
+
+>db.details.find({rno:1})
+
+db.details.deleteOne({rno:1})
+db. details.deleteMany( { location: "Chennai" } )
+
+db.details.updateOne({ rno: 2 }, {$set: { location: "Mysore" } })
+
+db. details.find({},{name:1,_id:0})
+
