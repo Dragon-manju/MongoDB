@@ -1,0 +1,21 @@
+db.users.insert({
+username: "John",
+age: 30,
+city:"Chennai",
+"interests":["music","garden"],
+Description:["good","avg","excellent"],
+"hashedField": "hashedValue1",
+"location": { "type": "Point", "coordinates": [ -73.97, 40.77 ] },
+"createdAt": ISODate("2023-01-01T00:00:00Z") })
+
+db.users.createIndex({ "username": 1 }, { unique: true })
+
+db.users.createIndex({ "city": 1 }, { sparse: true })
+
+db.users.createIndex({ “username”: 1, “age”: 1 })
+
+db.users.createIndex( { description: "text" } )
+
+db. users.createIndex({ city: "hashed" })
+
+db. users.createIndex({ createdAt: 1 }, { expireAfterSeconds: 3600 })
