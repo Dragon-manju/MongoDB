@@ -1,0 +1,21 @@
+pro 2
+
+
+{
+"rno" : 1,
+"name" : "Bhavana",
+"location": "Chennai"
+}
+
+a. 
+
+
+> db. details.find({rno:5},{name:1})
+>db. details.find({rno:5},{name:1,_id:0})
+db. details.find({},{name:1,_id:0})
+
+b.
+
+
+db. details.find().limit(2)
+db. details.find().limit(5)
