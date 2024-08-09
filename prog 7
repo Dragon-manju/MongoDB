@@ -1,0 +1,61 @@
+a.
+
+{ 
+"listing_url": "http://example.com/listing1",
+"name": "Beautiful Apartment in the City",
+"address": { "city": "New York", "country": "USA" },
+"host": { "host_picture_url": "http://example.com/host1.jpg" }
+}
+
+db.listingsAndReviews.aggregate([
+{ $match: { "host.host_picture_url": { $exists: true, $ne: null } } },
+ {
+ $project: {
+ listing_url: 1,
+ name: 1,
+ address: 1,
+ host_picture_url: "$host.host_picture_url" }
+}])
+
+
+b . 
+
+{
+ "product_id": 1,
+ "product_name": "Wireless Mouse",
+ "review_id": 102,
+ "review_text": "Good value for the price.",
+ "rating": 4
+}
+
+db.reviews.aggregate([
+{
+ $group: {
+ _id: "$product_id",
+ product_name: { $first: "$product_name" },
+ total_reviews: { $sum: 1 },
+ average_rating: { $avg: "$rating" },
+ latest_reviews: {
+ $push: {
+ review_id: "$review_id",
+ review_text: "$review_text",
+ rating: "$rating",
+ }
+ }
+ }
+},
+{
+ $project: {
+ product_id: "$_id",
+ product_name: 1,
+ total_reviews: 1,
+ average_rating: "$average_rating",
+ latest_reviews: {
+ $slice: ["$latest_reviews", -3] // Adjust the number of latest reviews as needed
+ }
+ }
+},
+{
+ $sort: { total_reviews: -1 } // Sort by total reviews in descending order
+}
+])
